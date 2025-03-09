@@ -68,6 +68,46 @@ namespace Mvc.Server
                     });
                 }
 
+                if (await manager.FindByClientIdAsync("react-client") is null)
+                {
+                    await manager.CreateAsync(new OpenIddictApplicationDescriptor
+                    {
+                        ClientId = "react-client",
+                        ClientSecret = "f3c91c89-2a9f-4e6c-bfc2-7b78cbe0567c",
+                        ConsentType = ConsentTypes.Explicit,
+                        DisplayName = "react-poc-client application",
+                        DisplayNames =
+                        {
+                            [CultureInfo.GetCultureInfo("fr-FR")] = "Application cliente reat-poc-client"
+                        },
+                        PostLogoutRedirectUris =
+                        {
+                            new Uri("http://localhost:3000/signout-callback-oidc")
+                        },
+                        RedirectUris =
+                        {
+                            new Uri("http://localhost:3000/signin-oidc")
+                        },
+                        Permissions =
+                        {
+                            Permissions.Endpoints.Authorization,
+                            Permissions.Endpoints.Logout,
+                            Permissions.Endpoints.Token,
+                            Permissions.GrantTypes.AuthorizationCode,
+                            Permissions.GrantTypes.RefreshToken,
+                            Permissions.ResponseTypes.Code,
+                            Permissions.Scopes.Email,
+                            Permissions.Scopes.Profile,
+                            Permissions.Scopes.Roles,
+                            Permissions.Prefixes.Scope + "demo_api"
+                        },
+                        Requirements =
+                        {
+                            Requirements.Features.ProofKeyForCodeExchange
+                        }
+                    });
+                }
+
                 // To test this sample with Postman, use the following settings:
                 //
                 // * Authorization URL: http://localhost:5020/connect/authorize
