@@ -168,6 +168,18 @@ namespace Mvc.Server
             // Register the worker responsible of seeding the database with the sample clients.
             // Note: in a real world application, this step should be part of a setup script.
             services.AddHostedService<Worker>();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowSpecificOrigins",
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:3000")
+                            .AllowAnyMethod()
+                            .AllowAnyHeader()
+                            .AllowCredentials();
+                    });
+            });
         }
 
         public void Configure(IApplicationBuilder app)
@@ -177,6 +189,8 @@ namespace Mvc.Server
             app.UseStaticFiles();
 
             app.UseStatusCodePagesWithReExecute("/error");
+
+            app.UseCors("AllowSpecificOrigins");
 
             app.UseRouting();
             app.UseCookiePolicy(new CookiePolicyOptions
