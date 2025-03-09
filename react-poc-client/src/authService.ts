@@ -6,7 +6,7 @@ const config = {
     client_secret: 'f3c91c89-2a9f-4e6c-bfc2-7b78cbe0567c',
     redirect_uri: 'http://localhost:3000/signin-oidc', // Adjust for Vite's default port
     response_type: 'code',
-    scope: 'email',
+    scope: 'profile email roles',
 };
 
 console.log("AUTH", config);

@@ -18,10 +18,27 @@ const App: React.FC = () => {
                 //login()
             });
     }
-
-    /*
+/*
     useEffect(() => {
         // Handle the redirect callback and get the user data
+        if (!user)
+        {
+            handleCallback()
+                .then(() => {
+                    console.log("Getting user...");
+                    getUser().then(setUser)
+                })
+                .catch((e) => {
+                    console.error(e);
+                    console.log("Redirecting to login...");
+                    login()
+                });
+        }
+    }, [user]);
+   */
+/*
+    if (!user)
+    {
         handleCallback()
             .then(() => {
                 console.log("Getting user...");
@@ -32,8 +49,14 @@ const App: React.FC = () => {
                 console.log("Redirecting to login...");
                 login()
             });
-    }, []);
+    }
 */
+
+    if (user)
+    {
+        console.log("User: ", user);
+    }
+
     return (
         <div>
             <h1>React OpenIddict POC with Vite and TypeScript</h1>
